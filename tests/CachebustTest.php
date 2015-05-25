@@ -15,7 +15,7 @@ require_once(__DIR__ . '/../src/Cachebust.php');
 
 class CachebustTest extends PHPUnit_Framework_TestCase
 {
-    public function testBust()
+    public function testFileBust()
     {
         $options = array(
             'enabled' => true,
@@ -237,9 +237,8 @@ class CachebustTest extends PHPUnit_Framework_TestCase
             'seed' => 'a4bb8768'
         );
         $path = '/files/styles.css';
-        $expected = '/files/3de1e771.styles.css';
         $cachebuster = new Cachebust($options);
-        $this->assertEquals($expected, $cachebuster->asset($path, dirname(__FILE__) . 'Some/Invalid/Directory'));
+        $cachebuster->asset($path, dirname(__FILE__) . 'Some/Invalid/Directory');
     }
 
     /**
