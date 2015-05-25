@@ -28,9 +28,8 @@ class MissingAssetException extends CachebustRuntimeException
      *
      * @param string $assetPath The path of the asset which caused the exception.
      */
-    public function __construct($assetPath){
-
+    public function __construct($assetPath)
+    {
         $this->message = sprintf($this->messageTemplate, $assetPath);
-
     }
 }

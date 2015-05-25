@@ -28,9 +28,8 @@ class InvalidPublicDirectoryException extends CachebustRuntimeException
      *
      * @param string $publicDir The public dir which caused the exception.
      */
-    public function __construct($publicDir){
-
+    public function __construct($publicDir)
+    {
         $this->message = sprintf($this->messageTemplate, $publicDir);
-
     }
 }

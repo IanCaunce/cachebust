@@ -9,7 +9,7 @@
 
 namespace IanCaunce\Cachebust;
 
-class InvalidAlgorithmException extends CachebustRuntimeException
+class InvalidBustMethodException extends CachebustRuntimeException
 {
     /**
      * Exception Message
@@ -21,15 +21,15 @@ class InvalidAlgorithmException extends CachebustRuntimeException
      * Exception Message Template
      * @var string
      */
-    protected $messageTemplate = 'The Algorithm "%s" is Invalid.';
+    protected $messageTemplate = 'The Bust Method "%s" is Invalid.';
 
     /**
      * Constructor Overloader
      *
-     * @param string $algorithm The name of the algorithm which caused the exception.
+     * @param string $bustMethod The bust method trying to be set.
      */
-    public function __construct($algorithm)
+    public function __construct($bustMethod)
     {
-        $this->message = sprintf($this->messageTemplate, $algorithm);
+        $this->message = sprintf($this->messageTemplate, $bustMethod);
     }
 }
