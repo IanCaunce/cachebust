@@ -45,6 +45,13 @@ class Cachebust
     protected $bustMethod;
 
     /**
+     * Dictates if the file contents should
+     * be used when generating the hash.
+     * @var string
+     */
+    protected $useFileContents = false;
+
+    /**
      * The hashing algorithm used.
      * @var string
      */
@@ -87,6 +94,10 @@ class Cachebust
             $this->setEnabled($options['enabled']);
         }
 
+        if (isset($options['useFileContents']) === true) {
+            $this->setUseFileContents($options['useFileContents']);
+        }
+
         if (isset($options['algorithm']) === true) {
             $this->setAlgorithm($options['algorithm']);
         }
@@ -120,6 +131,15 @@ class Cachebust
     public function setEnabled($enabled)
     {
         $this->enabled = (boolean)$enabled;
+    }
+
+    /**
+     * Sets the useFileContents flag.
+     * @param boolean $useFileContents True enables hashing using the file's contents.
+     */
+    public function setUseFileContents($useFileContents)
+    {
+        $this->useFileContents = (boolean)$useFileContents;
     }
 
     /**
@@ -268,9 +288,15 @@ class Cachebust
 
         $assetDiskPath = $this->getDiskPath($assetWebPath, $publicDir);
 
-        $fileHash = hash_file($this->algorithm, $assetDiskPath);
+        if ($this->useFileContents === true) {
+            $fileStr = file_get_contents($assetDiskPath);
+        } else {
+            $fileStr = filemtime($assetDiskPath);
+        }
 
-        return hash($this->algorithm, $fileHash . $this->seed);
+        $fileStr .= $this->seed;
+
+        return hash($this->algorithm, $fileStr);
 
     }
 
