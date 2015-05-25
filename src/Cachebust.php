@@ -196,7 +196,7 @@ class Cachebust
     /**
      * Sets the query parameter
      * @param string $queryParam Changing this will change the name of the query
-     *                       parameter used.
+     *                           parameter used.
      */
     public function setQueryParam($queryParam)
     {
@@ -314,7 +314,7 @@ class Cachebust
 
     /**
      * Generates the path of the asset using the
-     * file bust pattern prefix-hash.asset
+     * file bust pattern path/to/file/prefix-hash.asset
      * @param  string $assetWebPath Path of the asset
      * @param  string $publicDir The path to the public directory. If this is not set,
      *                           the default one will be used.
@@ -340,7 +340,7 @@ class Cachebust
 
     /**
      * Generates the path of the asset using the
-     * path bust pattern /prefix-hash/asset
+     * path bust pattern path/to/file/prefix-hash/asset
      * @param  string $assetWebPath Path of the asset
      * @param  string $publicDir The path to the public directory. If this is not set,
      *                           the default one will be used.
@@ -363,7 +363,7 @@ class Cachebust
 
     /**
      * Generates the path of the asset using the
-     * query bust pattern asset?v=hash
+     * query bust pattern path/to/file/asset?v=hash
      * @param  string $assetWebPath Path of the asset
      * @param  string $publicDir The path to the public directory. If this is not set,
      *                           the default one will be used.
