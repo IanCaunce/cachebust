@@ -22,7 +22,7 @@ class CachebustTest extends PHPUnit_Framework_TestCase
             'publicDir' => dirname(__FILE__)
         );
         $path = '/files/styles.css';
-        $expected = '/files/c43e1ed8-styles.css';
+        $expected = '/files/c43e1ed8.styles.css';
         $cachebuster = new Cachebust($options);
         $this->assertEquals($expected, $cachebuster->asset($path));
     }
@@ -36,7 +36,7 @@ class CachebustTest extends PHPUnit_Framework_TestCase
             'publicDir' => dirname(__FILE__)
         );
         $path = '/files/styles.css';
-        $expected = '/files/'.$options['prefix'].'-c43e1ed8-styles.css';
+        $expected = '/files/'.$options['prefix'].'-c43e1ed8.styles.css';
         $cachebuster = new Cachebust($options);
         $this->assertEquals($expected, $cachebuster->asset($path));
     }
@@ -149,7 +149,7 @@ class CachebustTest extends PHPUnit_Framework_TestCase
             'seed' => 'a4bb8768'
         );
         $path = '/files/styles.css';
-        $expected = '/files/c43e1ed8-styles.css';
+        $expected = '/files/c43e1ed8.styles.css';
         $cachebuster = new Cachebust($options);
         $this->assertEquals($expected, $cachebuster->asset($path, dirname(__FILE__)));
     }
@@ -164,7 +164,7 @@ class CachebustTest extends PHPUnit_Framework_TestCase
             'seed' => 'a4bb8768'
         );
         $path = '/files/styles.css';
-        $expected = '/files/c43e1ed8-styles.css';
+        $expected = '/files/c43e1ed8.styles.css';
         $cachebuster = new Cachebust($options);
         $this->assertEquals($expected, $cachebuster->asset($path, dirname(__FILE__) . 'Some/Invalid/Directory'));
     }

@@ -250,7 +250,7 @@ class Cachebust
 
                 $segments = explode('/', $assetWebPath);
 
-                $asset = $hash . '-' . array_pop($segments);
+                $asset = $hash . '.' . array_pop($segments);
 
                 if (strlen($this->prefix) > 0) {
                     $asset = $this->prefix . '-' . $asset;
