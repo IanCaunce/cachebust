@@ -140,4 +140,31 @@ class CachebustTest extends PHPUnit_Framework_TestCase
         $cachebuster = new Cachebust($options);
         $cachebuster->queryBust($path);
     }
+
+    public function testOverriddenPublicDir()
+    {
+        $options = array(
+            'enabled' => true,
+            'seed' => 'a4bb8768'
+        );
+        $path = '/files/styles.css';
+        $expected = '/files/c43e1ed8-styles.css';
+        $cachebuster = new Cachebust($options);
+        $this->assertEquals($expected, $cachebuster->asset($path, dirname(__FILE__)));
+    }
+
+    /**
+     * @expectedException IanCaunce\Cachebust\InvalidPublicDirectoryException
+     */
+    public function testInvalidOverriddenPublicDir()
+    {
+        $options = array(
+            'enabled' => true,
+            'seed' => 'a4bb8768'
+        );
+        $path = '/files/styles.css';
+        $expected = '/files/c43e1ed8-styles.css';
+        $cachebuster = new Cachebust($options);
+        $this->assertEquals($expected, $cachebuster->asset($path, dirname(__FILE__) . 'Some/Invalid/Directory'));
+    }
 }

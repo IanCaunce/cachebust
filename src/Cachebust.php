@@ -83,9 +83,9 @@ class Cachebust
             $this->setPrefix($options['prefix']);
         }
 
-        $publicDir = isset($options['publicDir']) ? $options['publicDir'] : public_path();
-
-        $this->setPublicDir($publicDir);
+        if (isset($options['publicDir']) === true) {
+            $this->setPublicDir($options['publicDir']);
+        }
 
         if (isset($options['queryBust']) === true) {
             $this->setQueryBust($options['queryBust']);
@@ -144,7 +144,7 @@ class Cachebust
             throw new InvalidPublicDirectoryException('Invalid Public Directory: "'.$publicDir.'"');
         }
 
-        $this->publicDir = rtrim($publicDir, '/') . '/';
+        $this->publicDir = $publicDir;
     }
 
     /**
@@ -179,12 +179,27 @@ class Cachebust
     /**
      * Returns the disk path to the file.
      * @param  string $assetWebPath The web accessible path to the file.
+     * @param  string $publicDir The path to the public directory. If this is not set,
+     *                           the default one will be used.
      * @throws IanCaunce\Cachebust\MissingAssetException
      * @return string The path to the file on disk
      */
-    public function getDiskPath($assetWebPath)
+    public function getDiskPath($assetWebPath, $publicDir = null)
     {
-        $assetDiskPath = $this->publicDir . ltrim($assetWebPath, '/');
+
+        if ($publicDir === null) {
+
+            $publicDir = $this->publicDir;
+
+        } elseif (file_exists($publicDir) === false) {
+
+            throw new InvalidPublicDirectoryException('Invalid Public Directory: "'.$publicDir.'"');
+
+        }
+
+        $publicDir = rtrim($publicDir, '/') . '/';
+
+        $assetDiskPath = $publicDir . ltrim($assetWebPath, '/');
 
         if (file_exists($assetDiskPath) === false) {
             throw new MissingAssetException('Missing Asset: "' . $assetWebPath .'"');
@@ -196,12 +211,14 @@ class Cachebust
     /**
      * Generates the hash of the asset
      * @param  string $assetWebPath Path to the asset
+     * @param  string $publicDir The path to the public directory. If this is not set,
+     *                           the default one will be used.
      * @return string The hash of the asset.
      */
-    public function getHash($assetWebPath)
+    public function getHash($assetWebPath, $publicDir = null)
     {
 
-        $assetDiskPath = $this->getDiskPath($assetWebPath);
+        $assetDiskPath = $this->getDiskPath($assetWebPath, $publicDir);
 
         $fileHash = hash_file($this->algorithm, $assetDiskPath);
 
@@ -212,20 +229,22 @@ class Cachebust
     /**
      * Generates the path of the asset.
      * @param  string $assetWebPath Path of the asset
+     * @param  string $publicDir The path to the public directory. If this is not set,
+     *                           the default one will be used.
      * @return string The new path of the asset with the hash.
      */
-    public function asset($assetWebPath)
+    public function asset($assetWebPath, $publicDir = null)
     {
 
         if ($this->enabled === true) {
 
             if ($this->queryBust === true) {
 
-                return $this->queryBust($assetWebPath);
+                return $this->queryBust($assetWebPath, $publicDir);
 
             } else {
 
-                $hash = $this->getHash($assetWebPath);
+                $hash = $this->getHash($assetWebPath, $publicDir);
 
                 $assetWebPath = trim($assetWebPath, '/');
 
@@ -253,14 +272,16 @@ class Cachebust
      * Generates the path of the asset using the
      * query bust pattern asset?v=hash
      * @param  string $assetWebPath Path of the asset
+     * @param  string $publicDir The path to the public directory. If this is not set,
+     *                           the default one will be used.
      * @return string The new path of the asset with the hash.
      */
-    public function queryBust($assetWebPath)
+    public function queryBust($assetWebPath, $publicDir = null)
     {
 
         if ($this->enabled === true) {
 
-            $assetWebPath .= '?'.$this->queryParam.'=' . $this->getHash($assetWebPath);
+            $assetWebPath .= '?'.$this->queryParam.'=' . $this->getHash($assetWebPath, $publicDir);
 
         }
 
