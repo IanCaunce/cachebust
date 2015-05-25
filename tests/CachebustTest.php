@@ -19,7 +19,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'publicDir' => dirname(__FILE__)
         );
         $path = '/files/styles.css';
@@ -28,11 +27,23 @@ class CachebustTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $cachebuster->asset($path));
     }
 
+    public function testSeed()
+    {
+        $options = array(
+            'enabled' => true,
+            'seed' => 'A new seed',
+            'publicDir' => dirname(__FILE__)
+        );
+        $path = '/files/styles.css';
+        $expected = '/files/94b898d8.styles.css';
+        $cachebuster = new Cachebust($options);
+        $this->assertEquals($expected, $cachebuster->asset($path));
+    }
+
     public function testUseFileContents()
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'useFileContents' => true,
             'publicDir' => dirname(__FILE__)
         );
@@ -46,7 +57,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'prefix' => 'cache',
             'publicDir' => dirname(__FILE__)
         );
@@ -60,7 +70,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'prefix' => 'cache',
             'bustMethod' => Cachebust::BUST_METHOD_PATH,
             'publicDir' => dirname(__FILE__)
@@ -75,7 +84,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'prefix' => 'cache',
             'bustMethod' => Cachebust::BUST_METHOD_QUERY,
             'publicDir' => dirname(__FILE__)
@@ -90,7 +98,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'bustMethod' => Cachebust::BUST_METHOD_QUERY,
             'publicDir' => dirname(__FILE__)
         );
@@ -104,7 +111,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'bustMethod' => Cachebust::BUST_METHOD_PATH,
             'publicDir' => dirname(__FILE__)
         );
@@ -118,7 +124,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'bustMethod' => Cachebust::BUST_METHOD_QUERY,
             'queryParam' => 'cache',
             'publicDir' => dirname(__FILE__)
@@ -133,7 +138,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => false,
-            'seed' => 'a4bb8768',
             'bustMethod' => Cachebust::BUST_METHOD_PATH,
             'publicDir' => dirname(__FILE__)
         );
@@ -147,7 +151,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => false,
-            'seed' => 'a4bb8768',
             'publicDir' => dirname(__FILE__)
         );
         $path = '/files/styles.css';
@@ -160,7 +163,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => false,
-            'seed' => 'a4bb8768',
             'bustMethod' => Cachebust::BUST_METHOD_QUERY,
             'publicDir' => dirname(__FILE__)
         );
@@ -177,7 +179,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'publicDir' => dirname(__FILE__)
         );
         $path = '/files/missing.css';
@@ -192,7 +193,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
     {
         $options = array(
             'enabled' => true,
-            'seed' => 'a4bb8768',
             'publicDir' => dirname(__FILE__) . 'Some/Invalid/Directory'
         );
         $path = '/files/styles.css';
@@ -208,7 +208,6 @@ class CachebustTest extends PHPUnit_Framework_TestCase
         $options = array(
             'enabled' => true,
             'algorithm' => 'invalidAlgorithm',
-            'seed' => 'a4bb8768',
             'publicDir' => dirname(__FILE__)
         );
         $path = '/files/styles.css';
