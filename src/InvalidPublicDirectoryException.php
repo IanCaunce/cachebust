@@ -9,6 +9,28 @@
 
 namespace IanCaunce\Cachebust;
 
-class InvalidPublicDirectoryException extends \RuntimeException
+class InvalidPublicDirectoryException extends CachebustRuntimeException
 {
+    /**
+     * Exception Message
+     * @var string
+     */
+    protected $message;
+
+    /**
+     * Exception Message Template
+     * @var string
+     */
+    protected $messageTemplate = 'The Directory "%s" is Invalid.';
+
+    /**
+     * Constructor Overloader
+     *
+     * @param string $publicDir The public dir which caused the exception.
+     */
+    public function __construct($publicDir){
+
+        $this->message = sprintf($this->messageTemplate, $publicDir);
+
+    }
 }

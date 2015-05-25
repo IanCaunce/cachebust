@@ -9,6 +9,28 @@
 
 namespace IanCaunce\Cachebust;
 
-class MissingAssetException extends \RuntimeException
+class MissingAssetException extends CachebustRuntimeException
 {
+    /**
+     * Exception Message
+     * @var string
+     */
+    protected $message;
+
+    /**
+     * Exception Message Template
+     * @var string
+     */
+    protected $messageTemplate = 'The Asset "%s" Does Not Exist.';
+
+    /**
+     * Constructor Overloader
+     *
+     * @param string $assetPath The path of the asset which caused the exception.
+     */
+    public function __construct($assetPath){
+
+        $this->message = sprintf($this->messageTemplate, $assetPath);
+
+    }
 }

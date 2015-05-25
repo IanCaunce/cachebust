@@ -6,6 +6,7 @@ use PHPUnit_Framework_TestCase;
 use IanCaunce\Cachebust\Cachebust;
 use IanCaunce\Cachebust\MissingAssetException;
 
+require_once(__DIR__ . '/../src/CachebustRuntimeException.php');
 require_once(__DIR__ . '/../src/MissingAssetException.php');
 require_once(__DIR__ . '/../src/InvalidPublicDirectoryException.php');
 require_once(__DIR__ . '/../src/InvalidAlgorithmException.php');

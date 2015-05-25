@@ -115,7 +115,7 @@ class Cachebust
     {
 
         if (in_array($algorithm, hash_algos()) === false) {
-            throw new InvalidAlgorithmException('Invalid Algorithm: "'.$algorithm.'"');
+            throw new InvalidAlgorithmException($algorithm);
         }
 
         $this->algorithm = $algorithm;
@@ -141,7 +141,7 @@ class Cachebust
     {
 
         if (file_exists($publicDir) === false) {
-            throw new InvalidPublicDirectoryException('Invalid Public Directory: "'.$publicDir.'"');
+            throw new InvalidPublicDirectoryException($publicDir);
         }
 
         $this->publicDir = $publicDir;
@@ -193,7 +193,7 @@ class Cachebust
 
         } elseif (file_exists($publicDir) === false) {
 
-            throw new InvalidPublicDirectoryException('Invalid Public Directory: "'.$publicDir.'"');
+            throw new InvalidPublicDirectoryException($publicDir);
 
         }
 
@@ -202,7 +202,7 @@ class Cachebust
         $assetDiskPath = $publicDir . ltrim($assetWebPath, '/');
 
         if (file_exists($assetDiskPath) === false) {
-            throw new MissingAssetException('Missing Asset: "' . $assetWebPath .'"');
+            throw new MissingAssetException($assetWebPath);
         }
 
         return $assetDiskPath;
