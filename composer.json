@@ -1,0 +1,21 @@
+{
+    "name": "iancaunce/cachebust",
+    "description": "Adds a unique hash to the url of a asset which invalidates the cache each time the asset changes.",
+    "keywords": ["assets", "asset", "cachebust", "cachebuster", "cache"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ian Caunce",
+            "email": "iancauncedevelopment@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+    },
+    "autoload": {
+        "psr-4": {
+            "IanCaunce\\Cachebust\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
