@@ -213,7 +213,7 @@ class Cachebust
             throw new InvalidBustMethodException($bustMethod);
         }
 
-        $this->bustMethod = $bustMethod . 'Bust';
+        $this->bustMethod = $bustMethod;
     }
 
     /**
@@ -309,7 +309,7 @@ class Cachebust
      */
     public function asset($assetWebPath, $publicDir = null)
     {
-        return $this->{$this->bustMethod}($assetWebPath, $publicDir);
+        return $this->{$this->bustMethod . 'Bust'}($assetWebPath, $publicDir);
     }
 
     /**
@@ -377,6 +377,41 @@ class Cachebust
         }
 
         return $assetWebPath;
+
+    }
+
+    /**
+     * Generates PCRE to match the asset
+     * paths generated using the current
+     * configuration.
+     *
+     * Nginx: http://nginx.org/en/docs/http/server_names.html#regex_names
+     * Apache: https://httpd.apache.org/docs/2.2/rewrite/intro.html#regex
+     * @return string
+     */
+    public function genRegex()
+    {
+        if ($this->bustMethod === self::BUST_METHOD_QUERY) {
+            throw new CachebustRuntimeException('There is no RegExp available when using the query busting method.');
+        }
+
+        $regex = '^(.*\/)';
+
+        if (strlen($this->prefix) > 0) {
+            $regex .= preg_quote($this->prefix) . '\-';
+        }
+
+        $hashLen = strlen(hash($this->algorithm, 'string'));
+
+        $regex .= '[0-9a-f]{'.$hashLen.'}\\';
+
+        if ($this->bustMethod === self::BUST_METHOD_PATH) {
+            $regex .= '/';
+        } else {
+            $regex .= '.';
+        }
+
+        return $regex . '(.*)$';
 
     }
 }

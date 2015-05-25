@@ -241,4 +241,64 @@ class CachebustTest extends PHPUnit_Framework_TestCase
         $cachebuster = new Cachebust($options);
         $this->assertEquals($expected, $cachebuster->asset($path, dirname(__FILE__) . 'Some/Invalid/Directory'));
     }
+
+    /**
+     * @expectedException IanCaunce\Cachebust\CachebustRuntimeException
+     */
+    public function testQueryRegex()
+    {
+        $options = array(
+            'enabled' => true,
+            'seed' => 'a4bb8768',
+            'bustMethod' => Cachebust::BUST_METHOD_QUERY
+        );
+        $cachebuster = new Cachebust($options);
+        $cachebuster->genRegex();
+    }
+
+    public function testFileRegex()
+    {
+        $options = array(
+            'enabled' => true,
+        );
+        $cachebuster = new Cachebust($options);
+        $regex = '/'.$cachebuster->genRegex().'/';
+        $this->assertRegExp($regex, '/files/3de1e771.styles.css');
+    }
+
+    public function testPathRegex()
+    {
+        $options = array(
+            'enabled' => true,
+            'bustMethod' => Cachebust::BUST_METHOD_PATH
+        );
+        $cachebuster = new Cachebust($options);
+        $regex = '/'.$cachebuster->genRegex().'/';
+        $this->assertRegExp($regex, '/files/3de1e771/styles.css');
+    }
+
+    public function testFilePrefixRegex()
+    {
+        $options = array(
+            'enabled' => true,
+            'prefix' => 'cache'
+        );
+        $cachebuster = new Cachebust($options);
+        $regex = '/'.$cachebuster->genRegex().'/';
+        $expected = '/files/' . $options['prefix'] . '-3de1e771.styles.css';
+        $this->assertRegExp($regex, $expected);
+    }
+
+    public function testPathPrefixRegex()
+    {
+        $options = array(
+            'enabled' => true,
+            'prefix' => 'cache',
+            'bustMethod' => Cachebust::BUST_METHOD_PATH
+        );
+        $cachebuster = new Cachebust($options);
+        $regex = '/'.$cachebuster->genRegex().'/';
+        $expected = '/files/' . $options['prefix'] . '-3de1e771/styles.css';
+        $this->assertRegExp($regex, $expected);
+    }
 }
