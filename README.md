@@ -100,35 +100,35 @@ For `file` and `path` busting, you will need to add a rewrite rule to your `.hta
 ###Apache
 
 ####File
-<pre>
+```
 <IfModule mod_rewrite.c>
     RewriteRule ^(.*\/)[0-9a-f]{8}\.(.*)$ $1$2 [DPI]
 </IfModule>
-</pre>
+```
 
 ####Path
-<pre>
+```
 <IfModule mod_rewrite.c>
     RewriteRule ^(.*\/)[0-9a-f]{8}\/(.*)$ $1$2 [DPI]
 </IfModule>
-</pre>
+```
 
 ####Nginx
 Make sure is it the first location block in your configuration file.
 
 ####File
-<pre>
+```
 location ~* "^(.*\/)[0-9a-f]{8}\.(.*)$" {
     try_files $uri $1$2;
 }
-</pre>
+```
 
 ####Path
-<pre>
+```
 location ~* "^(.*\/)[0-9a-f]{8}\/(.*)$" {
     try_files $uri $1$2;
 }
-</pre>
+```
 
 The default hashing alogorithm used is `crc32` which has a hash length of 8 characters. If you would like to used a different hashing algorithm, you can do so by changing it in the configuration. Update the number in curly brackets to match the length of your chosen algorithm.
 
